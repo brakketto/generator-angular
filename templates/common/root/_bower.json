@@ -5,12 +5,13 @@
     "angular": "^<%= ngVer %>"<% if (bootstrap) { %>,<% if (!compassBootstrap) { %>
     "bootstrap": "^3.2.0"<% } else { %>
     "bootstrap-sass-official": "^3.2.0"<% } } %><% if (animateModule) { %>,
+	"angular-ui-router": "~0.2.15",
+	"angular-bootstrap": "~0.13.0",
     "angular-animate": "^<%= ngVer %>"<% } %><% if (ariaModule) { %>,
     "angular-aria": "^<%= ngVer %>"<% } %><% if (cookiesModule) { %>,
     "angular-cookies": "^<%= ngVer %>"<% } %><% if (messagesModule) { %>,
     "angular-messages": "^<%= ngVer %>"<% } %><% if (resourceModule) { %>,
-    "angular-resource": "^<%= ngVer %>"<% } %><% if (routeModule) { %>,
-    "angular-route": "^<%= ngVer %>"<% } %><% if (sanitizeModule) { %>,
+    
     "angular-sanitize": "^<%= ngVer %>"<% } %><% if (touchModule) { %>,
     "angular-touch": "^<%= ngVer %>"<% } %>
   },

@@ -13,6 +13,10 @@ var Generator = module.exports = function Generator(args, options) {
   this.argument('appname', { type: String, required: false });
   this.appname = this.appname || path.basename(process.cwd());
   this.appname = this._.camelize(this._.slugify(this._.humanize(this.appname)));
+  
+  this.compass =false;
+  this.compassBootstrap = false;
+  this.bootstrap = true;
 
   this.option('app-suffix', {
     desc: 'Allow a custom suffix to be added to the module name',
@@ -56,15 +60,15 @@ var Generator = module.exports = function Generator(args, options) {
     this.env.options.coffee = this.options.coffee;
   }
 
-  this.hookFor('angular:common', {
+  this.hookFor('fg-angular:common', {
     args: args
   });
 
-  this.hookFor('angular:main', {
+  this.hookFor('fg-angular:main', {
     args: args
   });
 
-  this.hookFor('angular:controller', {
+  this.hookFor('fg-angular:controller', {
     args: args
   });
 
@@ -102,11 +106,7 @@ var Generator = module.exports = function Generator(args, options) {
       callback: this._injectDependencies.bind(this)
     });
 
-    if (this.env.options.ngRoute) {
-      this.invoke('angular:route', {
-        args: ['about']
-      });
-    }
+
   });
 
   this.pkg = require('../package.json');
@@ -134,7 +134,7 @@ Generator.prototype.welcome = function welcome() {
     );
   }
 };
-
+/*
 Generator.prototype.askForCompass = function askForCompass() {
   var cb = this.async();
 
@@ -174,7 +174,7 @@ Generator.prototype.askForBootstrap = function askForBootstrap() {
     cb();
   }.bind(this));
 };
-
+*/
 Generator.prototype.askForModules = function askForModules() {
   var cb = this.async();
 
@@ -204,10 +204,6 @@ Generator.prototype.askForModules = function askForModules() {
       name: 'angular-messages.js',
       checked: false
     }, {
-      value: 'routeModule',
-      name: 'angular-route.js',
-      checked: true
-    }, {
       value: 'sanitizeModule',
       name: 'angular-sanitize.js',
       checked: true
@@ -226,11 +222,12 @@ Generator.prototype.askForModules = function askForModules() {
     this.cookiesModule = hasMod('cookiesModule');
     this.messagesModule = hasMod('messagesModule');
     this.resourceModule = hasMod('resourceModule');
-    this.routeModule = hasMod('routeModule');
     this.sanitizeModule = hasMod('sanitizeModule');
     this.touchModule = hasMod('touchModule');
 
     var angMods = [];
+	angMods.push("'ui.router'");
+	angMods.push("'ui.bootstrap'");
 
     if (this.animateModule) {
       angMods.push("'ngAnimate'");
@@ -252,11 +249,7 @@ Generator.prototype.askForModules = function askForModules() {
       angMods.push("'ngResource'");
     }
 
-    if (this.routeModule) {
-      angMods.push("'ngRoute'");
-      this.env.options.ngRoute = true;
-    }
-
+	
     if (this.sanitizeModule) {
       angMods.push("'ngSanitize'");
     }
@@ -264,6 +257,8 @@ Generator.prototype.askForModules = function askForModules() {
     if (this.touchModule) {
       angMods.push("'ngTouch'");
     }
+	
+	
 
     if (angMods.length) {
       this.env.options.angularDeps = '\n    ' + angMods.join(',\n    ') + '\n  ';
@@ -274,27 +269,34 @@ Generator.prototype.askForModules = function askForModules() {
 };
 
 Generator.prototype.readIndex = function readIndex() {
-  this.ngRoute = this.env.options.ngRoute;
   this.indexFile = this.engine(this.read('app/index.html'), this);
 };
 
 Generator.prototype.bootstrapFiles = function bootstrapFiles() {
-  var cssFile = 'styles/main.' + (this.compass ? 's' : '') + 'css';
+  var cssFile = 'styles/main.less';
   this.copy(
     path.join('app', cssFile),
     path.join(this.appPath, cssFile)
   );
+  
+  
+  var bootstrapFile = 'styles/global/bootstrap.less';
+  this.copy(
+    path.join('app', bootstrapFile),
+    path.join(this.appPath, bootstrapFile)
+  );
+  
 };
-
+/*
 Generator.prototype.appJs = function appJs() {
   this.indexFile = this.appendFiles({
     html: this.indexFile,
     fileType: 'js',
     optimizedPath: 'scripts/scripts.js',
-    sourceFileList: ['scripts/app.js', 'scripts/controllers/main.js'],
+    sourceFileList: ['scripts/app.js', 'scripts/init-cordova.js', 'scripts/routes.js', 'scripts/controllers/main.js'],
     searchPath: ['.tmp', this.appPath]
   });
-};
+};*/
 
 Generator.prototype.createIndexHtml = function createIndexHtml() {
   this.indexFile = this.indexFile.replace(/&apos;/g, "'");
@@ -302,7 +304,7 @@ Generator.prototype.createIndexHtml = function createIndexHtml() {
 };
 
 Generator.prototype.packageFiles = function packageFiles() {
-  this.coffee = this.env.options.coffee;
+  this.coffee = false;// this.env.options.coffee;
   this.template('root/_bower.json', 'bower.json');
   this.template('root/_bowerrc', '.bowerrc');
   this.template('root/_package.json', 'package.json');

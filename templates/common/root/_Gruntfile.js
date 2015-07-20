@@ -22,7 +22,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'www'
   };
 
   // Define the configuration for all the tasks
@@ -46,7 +46,7 @@ module.exports = function (grunt) {
         tasks: ['newer:coffee:test', 'karma']
       },<% } else { %>
       js: {
-        files: ['<%%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: ['<%%= yeoman.app %>/scripts/{,**/}*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%%= connect.options.livereload %>'
@@ -55,15 +55,17 @@ module.exports = function (grunt) {
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
-      },<% } %><% if (compass) { %>
-      compass: {
-        files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer:server']
-      },<% } else { %>
+      },<% } %>
+	   lessstyles: {
+
+
+        files: ['<%%= yeoman.app %>/styles/{,**/*}*.less'],
+        tasks: ['less:build', 'newer:copy:styles']
+      },
       styles: {
         files: ['<%%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
-      },<% } %>
+      },
       gruntfile: {
         files: ['Gruntfile.js']
       },
@@ -80,6 +82,49 @@ module.exports = function (grunt) {
       }
     },
 
+
+    injector: {
+      options: {
+        // Task-specific options go here.
+        relative: true,
+        addRootSlash: false,
+        lineEnding:  grunt.util.linefeed
+      },
+      build: {
+        files: {
+          '<%%= yeoman.app %>/index.html': ['<%%= yeoman.app %>/scripts/controllers/**/*.js',
+            '<%%= yeoman.app %>/scripts/directives/**/*.js',
+            '<%%= yeoman.app %>/scripts/model/**/*.js',
+            '<%%= yeoman.app %>/scripts/services/**/*.js',
+            '<%%= yeoman.app %>/scripts/config/**/*.js']
+        }
+      }
+    },
+
+    less: {
+
+      build: {
+        strictMath: true,
+        sourceMap: true,
+        outputSourceFiles: true,
+        paths: ["assets/css"],
+        files: {
+          '<%%= yeoman.app %>/styles/main.css': '<%%= yeoman.app %>/styles/main.less'
+        }
+      },
+      dist: {
+        options: {
+          paths: ["assets/css"],
+          plugins: [
+            new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
+            new (require('less-plugin-clean-css'))({'advanced': true})
+          ]
+        },
+        files: {
+          '<%%= yeoman.app %>/styles/main.css': '<%%= yeoman.app %>/styles/main.less'
+        }
+      }
+    },
     // The actual grunt server settings
     connect: {
       options: {
@@ -196,7 +241,8 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath:  /\.\.\//,
+		exclude: ['bower_components/bootstrap/dist/css/bootstrap.css' ]
       },
       test: {
         devDependencies: true,
@@ -516,6 +562,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'injector',
       'concurrent:server',
       'autoprefixer:server',
       'connect:livereload',
@@ -540,17 +587,17 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
+      'injector',
     'useminPrepare',
     'concurrent:dist',
+    'less:build',
     'autoprefixer',
     'ngtemplates',
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
     'cssmin',
     'uglify',
-    'filerev',
     'usemin',
     'htmlmin'
   ]);
