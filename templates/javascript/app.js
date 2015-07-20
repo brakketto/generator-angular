@@ -9,4 +9,4 @@
  * Main module of the application.
  */
 angular
-  .module('<%= scriptAppName %>', [<%= angularModules %>]);
+  .module('<%= scriptAppName %>', ['<%= scriptAppName %>.development',<%= angularModules %>]);

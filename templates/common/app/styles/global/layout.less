@@ -1,0 +1,92 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: hidden;
+  font-size: @font-size-base;
+
+  @media @device-xlarge{
+    @media @landscape {
+      font-size: @font-size-normal;
+    }
+  }
+
+  @media @device-normal,@device-large{
+    @media @landscape {
+      font-size: @font-size-small;
+    }
+  }
+
+  @media @device-xlarge {
+    @media @portrait{
+      font-size: @font-size-xlarge;
+    }
+  }
+
+  @media @device-large {
+    @media @portrait{
+      font-size: @font-size-large;
+    }
+  }
+
+  @media @device-normal {
+    @media @portrait{
+      font-size: @font-size-normal;
+    }
+  }
+
+  @media @device-small {
+      font-size: @font-size-small;
+  }
+
+}
+
+
+
+.container-fixed-and-scroll {
+  height: 100%;
+  position: relative;
+
+  .container-fixed-top {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .container-fixed-scrollable {
+    overflow: auto;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+
+    &.no-pad {
+      padding: 0;
+    }
+
+    &.no-scrollable {
+      overflow:hidden;
+    }
+  }
+  .container-fixed-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    footer {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+.set-container-fixed-and-scroll(0, 0);
+
+

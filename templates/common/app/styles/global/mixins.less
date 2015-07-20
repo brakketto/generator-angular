@@ -1,0 +1,22 @@
+.set-container-fixed-and-scroll(@fixed-top,@fixed-bottom) {
+  .set-container-fixed-and-scroll-top(@fixed-top);
+  .set-container-fixed-and-scroll-bottom(@fixed-bottom);
+}
+
+.set-container-fixed-and-scroll-top(@fixed-top) {
+  &.container-fixed-and-scroll {
+    padding-top: @fixed-top;
+    .container-fixed-top {
+      height: @fixed-top;
+    }
+  }
+}
+
+.set-container-fixed-and-scroll-bottom(@fixed-bottom) {
+  &.container-fixed-and-scroll {
+    padding-bottom: @fixed-bottom;
+    .container-fixed-bottom {
+      height: @fixed-bottom;
+    }
+  }
+}

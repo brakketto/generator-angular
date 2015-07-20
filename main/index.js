@@ -15,4 +15,5 @@ Generator.prototype.createAppFile = function createAppFile() {
   this.appTemplate('app', 'scripts/app');
   this.appTemplate('init-cordova', 'scripts/init-cordova');
   this.appTemplate('routes', 'scripts/routes');
+  this.appTemplate('config', 'scripts/config/config');
 };

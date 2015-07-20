@@ -277,14 +277,19 @@ Generator.prototype.bootstrapFiles = function bootstrapFiles() {
   this.copy(
     path.join('app', cssFile),
     path.join(this.appPath, cssFile)
-  );
+  );  
   
+  cssFile = 'styles/global/bootstrap.less';
+  this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
   
-  var bootstrapFile = 'styles/global/bootstrap.less';
-  this.copy(
-    path.join('app', bootstrapFile),
-    path.join(this.appPath, bootstrapFile)
-  );
+  cssFile = 'styles/global/variables.less';
+  this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
+  
+  cssFile = 'styles/global/mixins.less';
+  this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
+  
+  cssFile = 'styles/global/layout.less';
+  this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
   
 };
 /*
