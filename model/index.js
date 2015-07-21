@@ -17,9 +17,9 @@ util.inherits(Generator, ScriptBase);
 
 Generator.prototype.createControllerFiles = function createControllerFiles() {
   this.generateSourceAndTest(
-    'controller',
-    'spec/controller',
-    'controllers',
+    'model',
+    'spec/model',
+    'model',
     this.options['skip-add'] || true
   );
 };

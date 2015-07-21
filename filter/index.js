@@ -14,6 +14,6 @@ Generator.prototype.createFilterFiles = function createFilterFiles() {
     'filter',
     'spec/filter',
     'filters',
-    this.options['skip-add'] || false
+    this.options['skip-add'] || true
   );
 };

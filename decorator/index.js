@@ -81,5 +81,5 @@ Generator.prototype.createDecoratorFiles = function createDecoratorFiles() {
     'decorator',
     path.join('scripts', buildRelativePath(this.fileName))
   );
-  this.addScriptToIndex(buildRelativePath(this.fileName));
+  //this.addScriptToIndex(buildRelativePath(this.fileName));
 };

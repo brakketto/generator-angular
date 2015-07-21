@@ -14,6 +14,6 @@ Generator.prototype.createServiceFiles = function createServiceFiles() {
     'service/factory',
     'spec/service',
     'services',
-    this.options['skip-add'] || false
+    this.options['skip-add'] || true
   );
 };
