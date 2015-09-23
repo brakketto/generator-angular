@@ -590,9 +590,10 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
-      'injector',
+    'injector',
     'useminPrepare',
     'concurrent:dist',
+    'less_imports',
     'less:build',
     'autoprefixer',
     'ngtemplates',
