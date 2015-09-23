@@ -68,9 +68,25 @@ var Generator = module.exports = function Generator(args, options) {
     args: args
   });
 
-  this.hookFor('fg-angular:controller', {
+  this.hookFor('fg-angular:state', {
     args: args
   });
+
+   this.hookFor('fg-angular:directive', {
+       args: args
+   });
+
+    this.hookFor('fg-angular:filter', {
+        args: args
+    });
+
+    this.hookFor('fg-angular:model', {
+        args: args
+    });
+    this.hookFor('fg-angular:service', {
+        args: args
+    });
+
 
   this.on('end', function () {
     var jsExt = this.options.coffee ? 'coffee' : 'js';
@@ -134,47 +150,7 @@ Generator.prototype.welcome = function welcome() {
     );
   }
 };
-/*
-Generator.prototype.askForCompass = function askForCompass() {
-  var cb = this.async();
 
-  this.prompt([{
-    type: 'confirm',
-    name: 'compass',
-    message: 'Would you like to use Sass (with Compass)?',
-    default: true
-  }], function (props) {
-    this.compass = props.compass;
-
-    cb();
-  }.bind(this));
-};
-
-Generator.prototype.askForBootstrap = function askForBootstrap() {
-  var compass = this.compass;
-  var cb = this.async();
-
-  this.prompt([{
-    type: 'confirm',
-    name: 'bootstrap',
-    message: 'Would you like to include Bootstrap?',
-    default: true
-  }, {
-    type: 'confirm',
-    name: 'compassBootstrap',
-    message: 'Would you like to use the Sass version of Bootstrap?',
-    default: true,
-    when: function (props) {
-      return props.bootstrap && compass;
-    }
-  }], function (props) {
-    this.bootstrap = props.bootstrap;
-    this.compassBootstrap = props.compassBootstrap;
-
-    cb();
-  }.bind(this));
-};
-*/
 Generator.prototype.askForModules = function askForModules() {
   var cb = this.async();
 
@@ -279,16 +255,16 @@ Generator.prototype.bootstrapFiles = function bootstrapFiles() {
     path.join(this.appPath, cssFile)
   );  
   
-  cssFile = 'styles/global/bootstrap.less';
+  cssFile = 'styles/bootstrap.less';
   this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
   
-  cssFile = 'styles/global/variables.less';
+  cssFile = 'styles/variables.less';
   this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
   
-  cssFile = 'styles/global/mixins.less';
+  cssFile = 'styles/mixins.less';
   this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
   
-  cssFile = 'styles/global/layout.less';
+  cssFile = 'styles/layout.less';
   this.copy(path.join('app', cssFile),path.join(this.appPath, cssFile));
   
 };

@@ -7,7 +7,7 @@ angular.module('<%= scriptAppName %>').config(function($stateProvider, $urlRoute
   $stateProvider
     .state('home', {
       url: "/home",
-      templateUrl: "views/main.html",
+      templateUrl: "states/main/main.html",
       controller : 'MainCtrl'
     });
 

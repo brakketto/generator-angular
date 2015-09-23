@@ -14,6 +14,6 @@ Generator.prototype.createAppFile = function createAppFile() {
   this.angularModules = this.env.options.angularDeps;
   this.appTemplate('app', 'scripts/app');
   this.appTemplate('init-cordova', 'scripts/init-cordova');
-  this.appTemplate('routes', 'scripts/routes');
-  this.appTemplate('config', 'scripts/config/config');
+  this.appTemplate('routes', 'states/routes');
+  this.appTemplate('config', 'scripts/config');
 };

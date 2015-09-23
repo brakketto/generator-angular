@@ -1,5 +1,6 @@
 'use strict';
 var util = require('util');
+var path = require('path');
 var ScriptBase = require('../script-base.js');
 
 
@@ -10,10 +11,5 @@ var Generator = module.exports = function Generator() {
 util.inherits(Generator, ScriptBase);
 
 Generator.prototype.createServiceFiles = function createServiceFiles() {
-  this.generateSourceAndTest(
-    'service/service',
-    'spec/service',
-    'services',
-    this.options['skip-add'] || true
-  );
+    this.appTemplate(path.join('service','service'), path.join('service', this.name));
 };

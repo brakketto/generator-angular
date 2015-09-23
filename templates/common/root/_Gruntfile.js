@@ -36,18 +36,10 @@ module.exports = function (grunt) {
       bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
-      },<% if (coffee) { %>
-      coffee: {
-        files: ['<%%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
-        tasks: ['newer:coffee:dist']
       },
-      coffeeTest: {
-        files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
-        tasks: ['newer:coffee:test', 'karma']
-      },<% } else { %>
       js: {
-        files: ['<%%= yeoman.app %>/scripts/{,**/}*.js'],
-        tasks: ['newer:jshint:all'],
+        files: ['<%%= yeoman.app %>/**/*.js'],
+        tasks: ['injector','newer:jshint:all'],
         options: {
           livereload: '<%%= connect.options.livereload %>'
         }
@@ -55,12 +47,10 @@ module.exports = function (grunt) {
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
-      },<% } %>
+      },
 	   lessstyles: {
-
-
-        files: ['<%%= yeoman.app %>/styles/{,**/*}*.less'],
-        tasks: ['less:build', 'newer:copy:styles']
+        files: ['<%%= yeoman.app %>/states/**/*.less', '<%%= yeoman.app %>/shared/**/*.less'],
+        tasks: ['less_imports','less:build', 'newer:copy:styles']
       },
       styles: {
         files: ['<%%= yeoman.app %>/styles/{,*/}*.css'],
@@ -74,9 +64,9 @@ module.exports = function (grunt) {
           livereload: '<%%= connect.options.livereload %>'
         },
         files: [
-          '<%%= yeoman.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',<% if (coffee) { %>
-          '.tmp/scripts/{,*/}*.js',<% } %>
+          '<%%= yeoman.app %>/states/**/*.html',
+          '<%%= yeoman.app %>/shared/**/*.html',
+          '.tmp/styles/{,*/}*.css',
           '<%%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
@@ -92,12 +82,25 @@ module.exports = function (grunt) {
       },
       build: {
         files: {
-          '<%%= yeoman.app %>/index.html': ['<%%= yeoman.app %>/scripts/controllers/**/*.js',
-            '<%%= yeoman.app %>/scripts/directives/**/*.js',
-            '<%%= yeoman.app %>/scripts/model/**/*.js',
-            '<%%= yeoman.app %>/scripts/services/**/*.js',
-            '<%%= yeoman.app %>/scripts/config/**/*.js']
+          '<%%= yeoman.app %>/index.html': [
+            '<%%= yeoman.app %>/model/**/*.js',
+            '<%%= yeoman.app %>/service/**/*.js',
+          '<%%= yeoman.app %>/shared/**/*.js',
+          '<%%= yeoman.app %>/states/**/*.js',
+          '!<%%= yeoman.app %>/states/routes.js',
+          '<%%= yeoman.app %>/shared/**/*.js' ]
         }
+      }
+    },
+
+    less_imports: {
+      options: {
+        inlineCSS: true, // default: true
+      },
+
+      project : {
+        src : ['<%%= yeoman.app %>/states/**/*.less', '<%%= yeoman.app %>/shared/**/*.less'],
+        dest : '<%%= yeoman.app %>/styles/imports.less'
       }
     },
 

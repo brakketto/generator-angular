@@ -82,6 +82,13 @@ Generator.prototype.htmlTemplate = function (src, dest) {
   ]);
 };
 
+Generator.prototype.styleTemplate = function (src, dest) {
+    yeoman.generators.Base.prototype.template.apply(this, [
+        src,
+        path.join(this.env.options.appPath, dest.toLowerCase())
+    ]);
+};
+
 Generator.prototype.addScriptToIndex = function (script) {
   try {
     var appPath = this.env.options.appPath;
